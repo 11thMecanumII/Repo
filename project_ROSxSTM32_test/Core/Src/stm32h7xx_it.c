@@ -86,6 +86,10 @@ void NMI_Handler(void)
   * @brief This function handles Hard fault interrupt.
   */
 void HardFault_Handler(void)
+<<<<<<< HEAD
+=======
+
+>>>>>>> origin/master
 {
   /* USER CODE BEGIN HardFault_IRQn 0 */
 
@@ -258,6 +262,7 @@ void TIM2_IRQHandler(void)
 }
 
 /**
+<<<<<<< HEAD
   * @brief This function handles EXTI line[15:10] interrupts.
   */
 void EXTI15_10_IRQHandler(void)
@@ -272,6 +277,8 @@ void EXTI15_10_IRQHandler(void)
 }
 
 /**
+=======
+>>>>>>> origin/master
   * @brief This function handles TIM5 global interrupt.
   */
 void TIM5_IRQHandler(void)
