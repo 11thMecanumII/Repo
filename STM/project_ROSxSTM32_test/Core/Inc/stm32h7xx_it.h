@@ -59,10 +59,7 @@ void RCC_IRQHandler(void);
 void DMA1_Stream0_IRQHandler(void);
 void DMA1_Stream1_IRQHandler(void);
 void TIM2_IRQHandler(void);
-<<<<<<< HEAD
 void EXTI15_10_IRQHandler(void);
-=======
->>>>>>> origin/master
 void TIM5_IRQHandler(void);
 void USART10_IRQHandler(void);
 /* USER CODE BEGIN EFP */

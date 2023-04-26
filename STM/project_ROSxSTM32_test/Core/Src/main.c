@@ -76,23 +76,16 @@ static void MX_TIM2_Init(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-<<<<<<< HEAD
 
 int inttt;
-=======
->>>>>>> origin/master
 double ut1, up1, ui1, ud1, SV1, PV1, Kp1 = 1.531, Ki1 = 32.006, Kd1, et1, pulse1, it1, imax1;
 double ut2, up2, ui2, ud2, SV2, PV2, Kp2 = 1.764, Ki2 = 37.553, Kd2, et2, pulse2, it2, imax2;
 double ut3, up3, ui3, ud3, SV3, PV3, Kp3 = 9.755, Ki3 = 189.701, Kd3, et3, pulse3, it3, imax3;
 double ut4, up4, ui4, ud4, SV4, PV4, Kp4 = 9.680, Ki4 = 161.358, Kd4, et4, pulse4, it4, imax4;
 int16_t enc1, enc2, enc3, enc4;
 double max_rps, amax_rps, temp_SV;
-<<<<<<< HEAD
 int map, run, run2, cont;
 #define PI 3.1415926
-=======
-int map, run, run2;
->>>>>>> origin/master
 double speed1, speed2, speed3, speed4, resolution = 512, reduction_ratio = 20.8, frequency = 1000;
 /* USER CODE END 0 */
 
@@ -149,10 +142,6 @@ int main(void)
     HAL_TIM_Encoder_Start(&htim4, TIM_CHANNEL_2);
     HAL_TIM_Encoder_Start(&htim23, TIM_CHANNEL_1);
     HAL_TIM_Encoder_Start(&htim23, TIM_CHANNEL_2);
-<<<<<<< HEAD
-=======
-
->>>>>>> origin/master
     run2 = 0;
     run = 0;
     ut1 = 0;
@@ -214,20 +203,14 @@ int main(void)
     Vx = 0;
     Vy = 0;
     W = 0;
-<<<<<<< HEAD
     cont = 0;
-=======
->>>>>>> origin/master
     max_rps = 5;
     amax_rps = -1 * max_rps;
     temp_SV = 0;
     map = 0;
-<<<<<<< HEAD
     rVy = 0;
     rVx = 0;
     rW = 0;
-=======
->>>>>>> origin/master
     setup();
   /* USER CODE END 2 */
 
@@ -239,7 +222,6 @@ int main(void)
 
     /* USER CODE BEGIN 3 */
 		loop();
-<<<<<<< HEAD
 		Vx = -0.08;
 //		Vy = 0.2;
 //		HAL_Delay(10000);
@@ -265,24 +247,6 @@ int main(void)
 //			}
 //			HAL_Delay(100);
 //		}*/
-=======
-		/*for (int i=0;i<100;i++){
-			if (i > 0 && i < 25){
-				Vy -= 0.02;
-				Vx += 0.02;
-			}else if (i > 25 && i < 50){
-				Vy -= 0.02;
-				Vx -= 0.02;
-			}else if (i > 50 && i < 75){
-				Vy += 0.02;
-				Vx -= 0.02;
-			}else if (i > 75 && i < 100){
-				Vy += 0.02;
-				Vx += 0.02;
-			}
-			HAL_Delay(100);
-		}*/
->>>>>>> origin/master
   }
   /* USER CODE END 3 */
 }
@@ -854,19 +818,12 @@ static void MX_GPIO_Init(void)
 
   /* GPIO Ports Clock Enable */
   __HAL_RCC_GPIOE_CLK_ENABLE();
-<<<<<<< HEAD
   __HAL_RCC_GPIOC_CLK_ENABLE();
-=======
->>>>>>> origin/master
   __HAL_RCC_GPIOF_CLK_ENABLE();
   __HAL_RCC_GPIOH_CLK_ENABLE();
   __HAL_RCC_GPIOA_CLK_ENABLE();
   __HAL_RCC_GPIOB_CLK_ENABLE();
   __HAL_RCC_GPIOD_CLK_ENABLE();
-<<<<<<< HEAD
-=======
-  __HAL_RCC_GPIOC_CLK_ENABLE();
->>>>>>> origin/master
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOE, GPIO_PIN_6|GPIO_PIN_7|GPIO_PIN_8|GPIO_PIN_10
@@ -884,15 +841,12 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOE, &GPIO_InitStruct);
 
-<<<<<<< HEAD
   /*Configure GPIO pin : PC13 */
   GPIO_InitStruct.Pin = GPIO_PIN_13;
   GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
 
-=======
->>>>>>> origin/master
   /*Configure GPIO pins : PB10 PB11 */
   GPIO_InitStruct.Pin = GPIO_PIN_10|GPIO_PIN_11;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
@@ -900,19 +854,15 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
-<<<<<<< HEAD
   /* EXTI interrupt init*/
   HAL_NVIC_SetPriority(EXTI15_10_IRQn, 0, 0);
   HAL_NVIC_EnableIRQ(EXTI15_10_IRQn);
 
-=======
->>>>>>> origin/master
 }
 
 /* USER CODE BEGIN 4 */
 
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
-<<<<<<< HEAD
 //	run++;
 //	if (htim->Instance == TIM2) {
 //		inttt ++;
@@ -926,20 +876,6 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
 		SV3 = Vy + Vx - (W * 0.152998);
 		SV4 = Vy - Vx + (W * 0.154852);
 
-=======
-	run++;
-	if (htim->Instance == TIM2) {
-		inter();
-	}
-	if (htim->Instance == TIM5) {
-
-		run2++;
-		SV1 = Vy + Vx + W;
-		SV2 = Vy - Vx - W;
-		SV3 = Vy + Vx - W;
-		SV4 = Vy - Vx + W;
-		//?��?��止輪子�?��?��?��?��?��?��?��?大�?��?��?�失衡�?�設定�?大�?��?�為rps=5
->>>>>>> origin/master
 		if (SV1 > max_rps){
 			temp_SV = max_rps / SV1;
 			SV1 *= temp_SV;
@@ -953,10 +889,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
 			SV3 *= temp_SV;
 			SV4 *= temp_SV;
 		}
-<<<<<<< HEAD
 
-=======
->>>>>>> origin/master
 		if (SV2 > max_rps){
 			temp_SV = max_rps / SV2;
 			SV2 *= temp_SV;
@@ -996,11 +929,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
 			SV2 *= temp_SV;
 			SV3 *= temp_SV;
 		}
-<<<<<<< HEAD
 
-=======
-		//?��??�輪子�?��?��?��?��?��?大�?��?��?��?��?��?�縮小�???�輪子�?��?��?�以保�?��?��?��??
->>>>>>> origin/master
 		it1 = et1;
 		it2 = et2;
 		it3 = et3;
@@ -1014,7 +943,6 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
 		__HAL_TIM_SetCounter(&htim23, 0);
 		__HAL_TIM_SetCounter(&htim3, 0);
 		__HAL_TIM_SetCounter(&htim4, 0);
-<<<<<<< HEAD
 
 //		speed1 = (double) enc1 * 99.6 * PI * 0.001 * 0.5 / (4 * resolution * reduction_ratio) * frequency;
 //		speed2 = (double) enc2 * 99.6 * PI * 0.001 * 0.5 / (4 * resolution * reduction_ratio) * frequency;
@@ -1036,12 +964,6 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
 		rVy = 0.25 * ( speed1 + speed2 + speed3 + speed4 );
 		rVx = 0.25 * ( speed1 - speed2 + speed3 - speed4 );
 		rW = 0.25 * ( speed1 - speed2 - speed3 + speed4 );
-=======
-		speed1 = (double) enc1 / (4 * resolution * reduction_ratio) * frequency;
-		speed2 = (double) enc2 / (4 * resolution * reduction_ratio) * frequency;
-		speed3 = (double) enc3 / (4 * resolution * reduction_ratio) * frequency;
-		speed4 = (double) enc4 / (4 * resolution * reduction_ratio) * frequency;
->>>>>>> origin/master
 		et1 = SV1 - speed1;
 		et2 = SV2 - speed2;
 		et3 = SV3 - speed3;
@@ -1149,10 +1071,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
 	}
 }
 
-<<<<<<< HEAD
 
-=======
->>>>>>> origin/master
 /* USER CODE END 4 */
 
 /**

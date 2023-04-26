@@ -8,11 +8,7 @@ Dma.USART10_RX.0.FIFOMode=DMA_FIFOMODE_DISABLE
 Dma.USART10_RX.0.Instance=DMA1_Stream0
 Dma.USART10_RX.0.MemDataAlignment=DMA_MDATAALIGN_BYTE
 Dma.USART10_RX.0.MemInc=DMA_MINC_ENABLE
-<<<<<<< HEAD
 Dma.USART10_RX.0.Mode=DMA_CIRCULAR
-=======
-Dma.USART10_RX.0.Mode=DMA_NORMAL
->>>>>>> origin/master
 Dma.USART10_RX.0.PeriphDataAlignment=DMA_PDATAALIGN_BYTE
 Dma.USART10_RX.0.PeriphInc=DMA_PINC_DISABLE
 Dma.USART10_RX.0.Polarity=HAL_DMAMUX_REQ_GEN_RISING
@@ -43,10 +39,7 @@ Dma.USART10_TX.1.SyncPolarity=HAL_DMAMUX_SYNC_NO_EVENT
 Dma.USART10_TX.1.SyncRequestNumber=1
 Dma.USART10_TX.1.SyncSignalID=NONE
 File.Version=6
-<<<<<<< HEAD
 GPIO.groupedBy=Group By Peripherals
-=======
->>>>>>> origin/master
 KeepUserPlacement=false
 Mcu.CPN=STM32H723ZGT6
 Mcu.Family=STM32H7
@@ -68,7 +61,6 @@ Mcu.Name=STM32H723ZGTx
 Mcu.Package=LQFP144
 Mcu.Pin0=PE2
 Mcu.Pin1=PE3
-<<<<<<< HEAD
 Mcu.Pin10=PA7
 Mcu.Pin11=PF11
 Mcu.Pin12=PF12
@@ -94,32 +86,6 @@ Mcu.Pin7=PH0-OSC_IN
 Mcu.Pin8=PA3
 Mcu.Pin9=PA6
 Mcu.PinsNb=26
-=======
-Mcu.Pin10=PF11
-Mcu.Pin11=PF12
-Mcu.Pin12=PE7
-Mcu.Pin13=PE8
-Mcu.Pin14=PE10
-Mcu.Pin15=PE12
-Mcu.Pin16=PE15
-Mcu.Pin17=PB10
-Mcu.Pin18=PB11
-Mcu.Pin19=PD12
-Mcu.Pin2=PE5
-Mcu.Pin20=PD13
-Mcu.Pin21=PC8
-Mcu.Pin22=PC9
-Mcu.Pin23=VP_TIM2_VS_ClockSourceINT
-Mcu.Pin24=VP_TIM5_VS_ClockSourceINT
-Mcu.Pin3=PE6
-Mcu.Pin4=PF0
-Mcu.Pin5=PF1
-Mcu.Pin6=PH0-OSC_IN
-Mcu.Pin7=PA3
-Mcu.Pin8=PA6
-Mcu.Pin9=PA7
-Mcu.PinsNb=25
->>>>>>> origin/master
 Mcu.ThirdPartyNb=0
 Mcu.UserConstants=
 Mcu.UserName=STM32H723ZGTx
@@ -129,10 +95,7 @@ NVIC.BusFault_IRQn=true\:0\:0\:false\:false\:true\:false\:false\:false
 NVIC.DMA1_Stream0_IRQn=true\:0\:0\:false\:false\:true\:false\:true\:true
 NVIC.DMA1_Stream1_IRQn=true\:0\:0\:false\:false\:true\:false\:true\:true
 NVIC.DebugMonitor_IRQn=true\:0\:0\:false\:false\:true\:false\:false\:false
-<<<<<<< HEAD
 NVIC.EXTI15_10_IRQn=true\:0\:0\:false\:false\:true\:true\:true\:true
-=======
->>>>>>> origin/master
 NVIC.ForceEnableDMAVector=true
 NVIC.HardFault_IRQn=true\:0\:0\:false\:false\:true\:false\:false\:false
 NVIC.MemoryManagement_IRQn=true\:0\:0\:false\:false\:true\:false\:false\:false
@@ -153,11 +116,8 @@ PB10.Locked=true
 PB10.Signal=GPIO_Output
 PB11.Locked=true
 PB11.Signal=GPIO_Output
-<<<<<<< HEAD
 PC13.Locked=true
 PC13.Signal=GPXTI13
-=======
->>>>>>> origin/master
 PC8.Signal=S_TIM8_CH3
 PC9.Signal=S_TIM8_CH4
 PD12.Signal=S_TIM4_CH1
@@ -215,11 +175,7 @@ ProjectManager.StackSize=0x400
 ProjectManager.TargetToolchain=STM32CubeIDE
 ProjectManager.ToolChainLocation=
 ProjectManager.UnderRoot=true
-<<<<<<< HEAD
 ProjectManager.functionlistsort=1-SystemClock_Config-RCC-false-HAL-false,2-MX_GPIO_Init-GPIO-false-HAL-true,3-MX_DMA_Init-DMA-false-HAL-true,4-MX_USART10_UART_Init-USART10-false-HAL-true,5-MX_TIM3_Init-TIM3-false-HAL-true,6-MX_TIM4_Init-TIM4-false-HAL-true,7-MX_TIM5_Init-TIM5-false-HAL-true,8-MX_TIM8_Init-TIM8-false-HAL-true,9-MX_TIM15_Init-TIM15-false-HAL-true,10-MX_TIM23_Init-TIM23-false-HAL-true,11-MX_TIM24_Init-TIM24-false-HAL-true,12-MX_TIM2_Init-TIM2-false-HAL-true,0-MX_CORTEX_M7_Init-CORTEX_M7-false-HAL-true
-=======
-ProjectManager.functionlistsort=1-SystemClock_Config-RCC-false-HAL-false,2-MX_GPIO_Init-GPIO-false-HAL-true,3-MX_DMA_Init-DMA-false-HAL-true,4-MX_USART10_UART_Init-USART10-false-HAL-true,5-MX_TIM3_Init-TIM3-false-HAL-true,6-MX_TIM4_Init-TIM4-false-HAL-true,7-MX_TIM5_Init-TIM5-false-HAL-true,8-MX_TIM8_Init-TIM8-false-HAL-true,9-MX_TIM15_Init-TIM15-false-HAL-true,10-MX_TIM23_Init-TIM23-false-HAL-true,11-MX_TIM24_Init-TIM24-false-HAL-true,12-MX_TIM1_Init-TIM1-false-HAL-true,0-MX_CORTEX_M7_Init-CORTEX_M7-false-HAL-true
->>>>>>> origin/master
 RCC.ADCFreq_Value=129000000
 RCC.AHB12Freq_Value=84000000
 RCC.AHB4Freq_Value=84000000
@@ -297,11 +253,8 @@ RCC.VCO3OutputFreq_Value=258000000
 RCC.VCOInput1Freq_Value=16000000
 RCC.VCOInput2Freq_Value=2000000
 RCC.VCOInput3Freq_Value=2000000
-<<<<<<< HEAD
 SH.GPXTI13.0=GPIO_EXTI13
 SH.GPXTI13.ConfNb=1
-=======
->>>>>>> origin/master
 SH.S_TIM15_CH1.0=TIM15_CH1,PWM Generation1 CH1
 SH.S_TIM15_CH1.ConfNb=1
 SH.S_TIM15_CH2.0=TIM15_CH2,PWM Generation2 CH2

@@ -3,7 +3,6 @@
 #include "std_msgs/Int64.h"
 #include "geometry_msgs/Twist.h"
 #include "STM32Hardware.h"
-<<<<<<< HEAD
 #define max_rps 5
 #define resolution 512
 #define reduction_ratio 20.8
@@ -19,12 +18,6 @@ void speedsss(double* speed, double enc){
 				/ (4 * resolution * reduction_ratio) * frequency;
 }
 
-=======
-
-int	count;
-int run_inter = 0;
-double Vx, Vy, W;
->>>>>>> origin/master
 
 void callback(const geometry_msgs::Twist &msg)
 {
@@ -34,17 +27,10 @@ void callback(const geometry_msgs::Twist &msg)
 }
 
 
-<<<<<<< HEAD
 ros::NodeHandle nh;
 ros::Subscriber<geometry_msgs::Twist> sub("cmd_vel", callback);
 ros::Publisher pub("/ins_vel", &insVel);
 //	std_msgs
-=======
-geometry_msgs::Twist ins_vel;
-ros::NodeHandle nh;
-ros::Subscriber<geometry_msgs::Twist> sub("cmd_vel", callback);
-ros::Publisher pub("/ins_vel", &ins_vel);
->>>>>>> origin/master
 
 /* UART Communication */
 void Error_Handler(void)
@@ -106,15 +92,9 @@ void HAL_UART_ErrorCallback(UART_HandleTypeDef *huart){
         Vy = 0.0;
         W = 0.0;
 
-<<<<<<< HEAD
 	HAL_UART_DeInit(&huart10);
 	MX_USART10_UART_Init();
 	nh.getHardware()->init();
-=======
-		HAL_UART_DeInit(&huart10);
-		MX_USART10_UART_Init();
-		nh.getHardware()->init();
->>>>>>> origin/master
     }
 }
 
@@ -131,10 +111,7 @@ void setup(void)
 {
     nh.initNode();
     nh.subscribe(sub);
-<<<<<<< HEAD
     nh.advertise(pub);
-=======
->>>>>>> origin/master
 }
 void loop(void)
 {
@@ -142,7 +119,6 @@ void loop(void)
 }
 
 void inter(){
-<<<<<<< HEAD
 	insVel.linear.x = rVx;
 	insVel.linear.y = rVy;
 	insVel.angular.z = rW;
@@ -151,14 +127,3 @@ void inter(){
 
 	run_inter1 ++;
 }
-=======
-    ins_vel.linear.x = Vx;
-    ins_vel.linear.y = Vy;
-    ins_vel.angular.z = W;
-
-	pub.publish(&ins_vel);
-	run_inter ++;
-}
-
-//
->>>>>>> origin/master
