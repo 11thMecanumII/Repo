@@ -18,7 +18,6 @@ void speedsss(double* speed, double enc){
 				/ (4 * resolution * reduction_ratio) * frequency;
 }
 
-
 void callback(const geometry_msgs::Twist &msg)
 {
 	Vx = msg.linear.x;
