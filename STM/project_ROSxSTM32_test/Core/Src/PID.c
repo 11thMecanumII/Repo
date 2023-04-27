@@ -4,6 +4,7 @@ KPID Kpid[4];
 
 void pidCtrl(int i, double goalVel, double insVel){
 	Kpid[i].error = goalVel - insVel;
+//	Kpid[i].up = Kpid[i].Kp *　Kpid[i].error;
 
 //	it[i] = et[i];
 //	PV[i] = (double) enc[i] * PI * 0.0996 / (4 * resolution * reduction_ratio) * frequency;

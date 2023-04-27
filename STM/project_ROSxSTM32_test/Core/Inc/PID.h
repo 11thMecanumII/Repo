@@ -15,6 +15,10 @@ typedef struct{
 	const double Ki;
 	const double Kd;
 	double error;
+	double u;
+	double up;
+	double ui;
+	double ud;
 }KPID;
 
 extern KPID Kpid[4];
