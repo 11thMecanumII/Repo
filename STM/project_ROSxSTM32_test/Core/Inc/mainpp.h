@@ -1,10 +1,3 @@
-/*
- * mainpp.h
- *
- *  Created on: 2018/01/17
- *      Author: yoneken
- */
-
 #ifndef _MAINPP_H_
 #define _MAINPP_H_
 
@@ -15,7 +8,8 @@ extern "C"
 void speedsss(double* speed, double enc);
 void setup(void);
 void loop(void);
-void inter(void);
+void interPub(void);
+// void PID();
 
 extern int run_inter0, run_inter1;
 extern double Vx, Vy, W ,rVx, rVy, rW;
