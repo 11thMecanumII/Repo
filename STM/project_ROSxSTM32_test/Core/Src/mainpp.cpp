@@ -7,7 +7,7 @@ ros::NodeHandle nh;
 int run_inter0 = 0, run_inter1 = 0;
 double Vx, Vy, W, rVx, rVy, rW;
 geometry_msgs::Twist insVel;
-ros::Publisher pub("ins_vel", &insVel, 1);
+ros::Publisher pub("/ins_vel", &insVel);
 
 void callback(const geometry_msgs::Twist &msg)
 {
