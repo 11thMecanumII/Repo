@@ -18,10 +18,12 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
+//#include "parameter.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "mainpp.h"
+#include "PID.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -31,11 +33,23 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
+
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
 /* USER CODE BEGIN PM */
-
+void SV_Limit(double SV[], double max){
+	double temp_SV;
+	for (int i = 0; i < 4; i++) {
+		if (SV[i] > max){
+			temp_SV = max / SV[i];
+			for (int j = 0; j < 4; j++) SV[j] *= temp_SV;
+		}else if (SV[i] < (max * -1)){
+			temp_SV = (max * -1) / SV[i];
+			for (int j = 0; j < 4; j++) SV[j] *= temp_SV;
+		}
+	}
+}
 /* USER CODE END PM */
 
 /* Private variables ---------------------------------------------------------*/
@@ -77,16 +91,6 @@ static void MX_TIM2_Init(void);
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
 
-int inttt;
-double ut1, up1, ui1, ud1, SV1, PV1, Kp1 = 1.531, Ki1 = 32.006, Kd1, et1, pulse1, it1, imax1;
-double ut2, up2, ui2, ud2, SV2, PV2, Kp2 = 1.764, Ki2 = 37.553, Kd2, et2, pulse2, it2, imax2;
-double ut3, up3, ui3, ud3, SV3, PV3, Kp3 = 9.755, Ki3 = 189.701, Kd3, et3, pulse3, it3, imax3;
-double ut4, up4, ui4, ud4, SV4, PV4, Kp4 = 9.680, Ki4 = 161.358, Kd4, et4, pulse4, it4, imax4;
-int16_t enc1, enc2, enc3, enc4;
-double max_rps, amax_rps, temp_SV;
-int map, run, run2, cont;
-#define PI 3.1415926
-double speed1, speed2, speed3, speed4, resolution = 512, reduction_ratio = 20.8, frequency = 1000;
 /* USER CODE END 0 */
 
 /**
@@ -142,75 +146,11 @@ int main(void)
     HAL_TIM_Encoder_Start(&htim4, TIM_CHANNEL_2);
     HAL_TIM_Encoder_Start(&htim23, TIM_CHANNEL_1);
     HAL_TIM_Encoder_Start(&htim23, TIM_CHANNEL_2);
-    run2 = 0;
-    run = 0;
-    ut1 = 0;
-    ut2 = 0;
-    ut3 = 0;
-    ut4 = 0;
-    up1 = 0;
-    up2 = 0;
-    up3 = 0;
-    up4 = 0;
-    ui1 = 0;
-    ui2 = 0;
-    ui3 = 0;
-    ui4 = 0;
-    ud1 = 0;
-    ud2 = 0;
-    ud3 = 0;
-    ud4 = 0;
-    SV1 = 0;
-    SV2 = 0;
-    SV3 = 0;
-    SV4 = 0;
-    PV1 = 0;
-    PV2 = 0;
-    PV3 = 0;
-    PV4 = 0;
-    Kp1 = 0.3968;
-    Ki1 = 9.292;
-    Kd1 = 0.001676;
-    Kp2 = 0.3824;
-    Ki2 = 9.0983;
-    Kd2 = 0.001656;
-    Kp3 = 0.3919;
-    Ki3 = 9.34526;
-    Kd3 = 0.001684;
-    Kp4 = 0.38488;
-    Ki4 = 8.9584;
-    Kd4 = 0.001678;
-    et1 = 0;
-    et2 = 0;
-    et3 = 0;
-    et4 = 0;
-    pulse1 = 0;
-    pulse2 = 0;
-    pulse3 = 0;
-    pulse4 = 0;
-    it1 = 0;
-    it2 = 0;
-    it3 = 0;
-    it4 = 0;
-    imax1 = 1;
-    imax2 = 1;
-    imax3 = 1;
-    imax4 = 1;
-    enc1 = 0;
-    enc2 = 0;
-    enc3 = 0;
-    enc4 = 0;
-    Vx = 0;
-    Vy = 0;
-    W = 0;
-    cont = 0;
-    max_rps = 5;
-    amax_rps = -1 * max_rps;
-    temp_SV = 0;
-    map = 0;
-    rVy = 0;
-    rVx = 0;
-    rW = 0;
+
+//    for( int j = 0; j < 4; j ++){
+//    	K_init(j);
+//    }
+
     setup();
   /* USER CODE END 2 */
 
@@ -222,31 +162,6 @@ int main(void)
 
     /* USER CODE BEGIN 3 */
 		loop();
-		Vx = -0.08;
-//		Vy = 0.2;
-//		HAL_Delay(10000);
-//		Vy = 0;
-//		Vx = 0.2;
-//		HAL_Delay(10000);
-//		Vx = -0.2;
-//		HAL_Delay(10000);
-//		Vx = 0;
-//		/*for (int i=0;i<100;i++){
-//			if (i > 0 && i < 25){
-//				Vy -= 0.02;
-//				Vx += 0.02;
-//			}else if (i > 25 && i < 50){
-//				Vy -= 0.02;
-//				Vx -= 0.02;
-//			}else if (i > 50 && i < 75){
-//				Vy += 0.02;
-//				Vx -= 0.02;
-//			}else if (i > 75 && i < 100){
-//				Vy += 0.02;
-//				Vx += 0.02;
-//			}
-//			HAL_Delay(100);
-//		}*/
   }
   /* USER CODE END 3 */
 }
@@ -863,215 +778,56 @@ static void MX_GPIO_Init(void)
 /* USER CODE BEGIN 4 */
 
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
-//	run++;
 //	if (htim->Instance == TIM2) {
-//		inttt ++;
 //		inter();
 //	}
 	if (htim->Instance == TIM5) {
-
-		run2++;
-		SV1 = Vy + Vx + (W * 0.152767);
-		SV2 = Vy - Vx - (W * 0.152844);
-		SV3 = Vy + Vx - (W * 0.152998);
-		SV4 = Vy - Vx + (W * 0.154852);
-
-		if (SV1 > max_rps){
-			temp_SV = max_rps / SV1;
-			SV1 *= temp_SV;
-			SV2 *= temp_SV;
-			SV3 *= temp_SV;
-			SV4 *= temp_SV;
-		}else if (SV1 < amax_rps){
-			temp_SV = amax_rps / SV1;
-			SV1 *= temp_SV;
-			SV2 *= temp_SV;
-			SV3 *= temp_SV;
-			SV4 *= temp_SV;
-		}
-
-		if (SV2 > max_rps){
-			temp_SV = max_rps / SV2;
-			SV2 *= temp_SV;
-			SV1 *= temp_SV;
-			SV3 *= temp_SV;
-			SV4 *= temp_SV;
-		}else if (SV2 < amax_rps){
-			temp_SV = amax_rps / SV2;
-			SV2 *= temp_SV;
-			SV1 *= temp_SV;
-			SV3 *= temp_SV;
-			SV4 *= temp_SV;
-		}
-		if (SV3 > max_rps){
-			temp_SV = max_rps / SV3;
-			SV3 *= temp_SV;
-			SV1 *= temp_SV;
-			SV2 *= temp_SV;
-			SV4 *= temp_SV;
-		}else if (SV3 < amax_rps){
-			temp_SV = amax_rps / SV3;
-			SV3 *= temp_SV;
-			SV1 *= temp_SV;
-			SV2 *= temp_SV;
-			SV4 *= temp_SV;
-		}
-		if (SV4 > max_rps){
-			temp_SV = max_rps / SV4;
-			SV4 *= temp_SV;
-			SV2 *= temp_SV;
-			SV1 *= temp_SV;
-			SV3 *= temp_SV;
-		}else if (SV4 < amax_rps){
-			temp_SV = amax_rps / SV4;
-			SV4 *= temp_SV;
-			SV1 *= temp_SV;
-			SV2 *= temp_SV;
-			SV3 *= temp_SV;
-		}
-
-		it1 = et1;
-		it2 = et2;
-		it3 = et3;
-		it4 = et4;
-		enc1 = __HAL_TIM_GetCounter(&htim23);
-		enc2 = __HAL_TIM_GetCounter(&htim4);
-		enc3 = __HAL_TIM_GetCounter(&htim24);
-		enc4 = __HAL_TIM_GetCounter(&htim3);
-		enc2 *= -1;
+		Kpid[0].goalVel = Vy + Vx + (W * 0.152767);
+		Kpid[1].goalVel = Vy - Vx - (W * 0.152844);
+		Kpid[2].goalVel = Vy + Vx - (W * 0.152998);
+		Kpid[3].goalVel = Vy - Vx + (W * 0.154852);
+		Kpid[0].enc = __HAL_TIM_GetCounter(&htim23);
+		Kpid[1].enc = __HAL_TIM_GetCounter(&htim4) * -1;
+		Kpid[2].enc = __HAL_TIM_GetCounter(&htim24);
+		Kpid[3].enc = __HAL_TIM_GetCounter(&htim3);
 		__HAL_TIM_SetCounter(&htim24, 0);
 		__HAL_TIM_SetCounter(&htim23, 0);
 		__HAL_TIM_SetCounter(&htim3, 0);
 		__HAL_TIM_SetCounter(&htim4, 0);
 
-//		speed1 = (double) enc1 * 99.6 * PI * 0.001 * 0.5 / (4 * resolution * reduction_ratio) * frequency;
-//		speed2 = (double) enc2 * 99.6 * PI * 0.001 * 0.5 / (4 * resolution * reduction_ratio) * frequency;
-//		speed3 = (double) enc3 * 99.6 * PI * 0.001 * 0.5 / (4 * resolution * reduction_ratio) * frequency;
-//		speed4 = (double) enc4 * 99.6 * PI * 0.001 * 0.5 / (4 * resolution * reduction_ratio) * frequency;
+		for( int i = 0; i < 4; i ++){
+			pidCtrl(i);
+		}
 
-		speed1 = (double) enc1 * PI * 0.0996 / (4 * resolution * reduction_ratio) * frequency;
-		speed2 = (double) enc2 * PI * 0.0996 / (4 * resolution * reduction_ratio) * frequency;
-		speed3 = (double) enc3 * PI * 0.0996 / (4 * resolution * reduction_ratio) * frequency;
-		speed4 = (double) enc4 * PI * 0.0996 / (4 * resolution * reduction_ratio) * frequency;
+		__HAL_TIM_SET_COMPARE(&htim8, TIM_CHANNEL_3, Kpid[0].pulse);
+		__HAL_TIM_SET_COMPARE(&htim8, TIM_CHANNEL_4, Kpid[1].pulse);
+		__HAL_TIM_SET_COMPARE(&htim15, TIM_CHANNEL_2, Kpid[2].pulse);
+		__HAL_TIM_SET_COMPARE(&htim15, TIM_CHANNEL_1, Kpid[3].pulse);
+		HAL_GPIO_WritePin(GPIOB, GPIO_PIN_10, GPIO_PIN_RESET);
+		HAL_GPIO_WritePin(GPIOB, GPIO_PIN_11, GPIO_PIN_RESET);
+		HAL_GPIO_WritePin(GPIOE, GPIO_PIN_15, GPIO_PIN_RESET);
+		HAL_GPIO_WritePin(GPIOE, GPIO_PIN_6, GPIO_PIN_RESET);
+		HAL_GPIO_WritePin(GPIOE, GPIO_PIN_10, GPIO_PIN_RESET);
+		HAL_GPIO_WritePin(GPIOE, GPIO_PIN_12, GPIO_PIN_RESET);
+		HAL_GPIO_WritePin(GPIOE, GPIO_PIN_8, GPIO_PIN_RESET);
+		HAL_GPIO_WritePin(GPIOE, GPIO_PIN_7, GPIO_PIN_RESET);
+		if (Kpid[0].u > 0)HAL_GPIO_WritePin(GPIOB, GPIO_PIN_10, GPIO_PIN_SET);
+		else if (Kpid[0].u < 0)HAL_GPIO_WritePin(GPIOB, GPIO_PIN_11, GPIO_PIN_SET);
+		if (Kpid[1].u > 0)HAL_GPIO_WritePin(GPIOE, GPIO_PIN_15, GPIO_PIN_SET);
+		else if (Kpid[1].u < 0)HAL_GPIO_WritePin(GPIOE, GPIO_PIN_6, GPIO_PIN_SET);
+		if (Kpid[2].u > 0)HAL_GPIO_WritePin(GPIOE, GPIO_PIN_10, GPIO_PIN_SET);
+		else if (Kpid[2].u < 0)HAL_GPIO_WritePin(GPIOE, GPIO_PIN_12, GPIO_PIN_SET);
+		if (Kpid[3].u > 0)HAL_GPIO_WritePin(GPIOE, GPIO_PIN_8, GPIO_PIN_SET);
+		else if (Kpid[3].u < 0)HAL_GPIO_WritePin(GPIOE, GPIO_PIN_7, GPIO_PIN_SET);
 
-//		speedsss(&speed1, enc1);
-
-//		speed1 = (double) enc1  / (4 * resolution * reduction_ratio) * frequency;
-//		speed2 = (double) enc2  / (4 * resolution * reduction_ratio) * frequency;
-//		speed3 = (double) enc3  / (4 * resolution * reduction_ratio) * frequency;
-//		speed4 = (double) enc4  / (4 * resolution * reduction_ratio) * frequency;
-
-		rVy = 0.25 * ( speed1 + speed2 + speed3 + speed4 );
-		rVx = 0.25 * ( speed1 - speed2 + speed3 - speed4 );
-		rW = 0.25 * ( speed1 - speed2 - speed3 + speed4 );
-		et1 = SV1 - speed1;
-		et2 = SV2 - speed2;
-		et3 = SV3 - speed3;
-		et4 = SV4 - speed4;
-		up1 = Kp1 * et1;
-		up2 = Kp2 * et2;
-		up3 = Kp3 * et3;
-		up4 = Kp4 * et4;
-		ui1 += Ki1 * it1 * 0.001;
-		ui2 += Ki2 * it2 * 0.001;
-		ui3 += Ki3 * it3 * 0.001;
-		ui4 += Ki4 * it4 * 0.001;
-		ud1 = Kd1 * (et1 - it1) / 0.001;
-		ud2 = Kd2 * (et2 - it2) / 0.001;
-		ud3 = Kd3 * (et3 - it3) / 0.001;
-		ud4 = Kd4 * (et4 - it4) / 0.001;
-		if (ui1 > imax1){
-			ui1 = imax1;
-		}else if (ui1 < imax1 * -1){
-			ui1 = imax1 * -1;
-		}
-		if (ui2 > imax2){
-			ui2 = imax2;
-		}else if (ui2 < imax2 * -1){
-			ui2 = imax2 * -1;
-		}
-		if (ui3 > imax3){
-			ui3 = imax3;
-		}else if (ui3 < imax3 * -1){
-			ui3 = imax3 * -1;
-		}
-		if (ui4 > imax4){
-			ui4 = imax4;
-		}else if (ui4 < imax4 * -1){
-			ui4 = imax4 * -1;
-		}
-		ut1 = up1 + ui1 + ud1;
-		ut2 = up2 + ui2 + ud2;
-		ut3 = up3 + ui3 + ud3;
-		ut4 = up4 + ui4 + ud4;
-		pulse1 = ut1 * 3200;
-		pulse2 = ut2 * 3200;
-		pulse3 = ut3 * 3200;
-		pulse4 = ut4 * 3200;
-		if (ut1 < 0){
-			pulse1 *= -1;
-		}
-		if (ut2 < 0){
-			pulse2 *= -1;
-				}
-		if (ut3 < 0){
-			pulse3 *= -1;
-		}
-		if (ut4 < 0){
-			pulse4 *= -1;
-		}
-		if(pulse1 > 3200) pulse1 = 3200;
-		if(pulse2 > 3200) pulse2 = 3200;
-		if(pulse3 > 3200) pulse3 = 3200;
-		if(pulse4 > 3200) pulse4 = 3200;
-		__HAL_TIM_SET_COMPARE(&htim8, TIM_CHANNEL_3, pulse1);
-		__HAL_TIM_SET_COMPARE(&htim8, TIM_CHANNEL_4, pulse2);
-		__HAL_TIM_SET_COMPARE(&htim15, TIM_CHANNEL_2, pulse3);
-		__HAL_TIM_SET_COMPARE(&htim15, TIM_CHANNEL_1, pulse4);
-		if (ut1 > 0){
-			HAL_GPIO_WritePin(GPIOB, GPIO_PIN_10, GPIO_PIN_SET);
-			HAL_GPIO_WritePin(GPIOB, GPIO_PIN_11, GPIO_PIN_RESET);
-		}else if (ut1 < 0){
-			HAL_GPIO_WritePin(GPIOB, GPIO_PIN_10, GPIO_PIN_RESET);
-			HAL_GPIO_WritePin(GPIOB, GPIO_PIN_11, GPIO_PIN_SET);
-		}else if (ut1 == 0){
-			HAL_GPIO_WritePin(GPIOB, GPIO_PIN_10, GPIO_PIN_RESET);
-			HAL_GPIO_WritePin(GPIOB, GPIO_PIN_11, GPIO_PIN_RESET);
-		}
-		if (ut2 < 0){
-			HAL_GPIO_WritePin(GPIOE, GPIO_PIN_6, GPIO_PIN_SET);
-			HAL_GPIO_WritePin(GPIOE, GPIO_PIN_15, GPIO_PIN_RESET);
-		}else if (ut2 > 0){
-			HAL_GPIO_WritePin(GPIOE, GPIO_PIN_6, GPIO_PIN_RESET);
-			HAL_GPIO_WritePin(GPIOE, GPIO_PIN_15, GPIO_PIN_SET);
-		}else if (ut2 == 0){
-			HAL_GPIO_WritePin(GPIOE, GPIO_PIN_6, GPIO_PIN_RESET);
-			HAL_GPIO_WritePin(GPIOE, GPIO_PIN_15, GPIO_PIN_RESET);
-		}
-		if (ut3 > 0){
-			HAL_GPIO_WritePin(GPIOE, GPIO_PIN_10, GPIO_PIN_SET);
-			HAL_GPIO_WritePin(GPIOE, GPIO_PIN_12, GPIO_PIN_RESET);
-		}else if (ut3 < 0){
-			HAL_GPIO_WritePin(GPIOE, GPIO_PIN_10, GPIO_PIN_RESET);
-			HAL_GPIO_WritePin(GPIOE, GPIO_PIN_12, GPIO_PIN_SET);
-		}else if (ut3 == 0){
-			HAL_GPIO_WritePin(GPIOE, GPIO_PIN_10, GPIO_PIN_RESET);
-			HAL_GPIO_WritePin(GPIOE, GPIO_PIN_12, GPIO_PIN_RESET);
-		}
-		if (ut4 > 0){
-			HAL_GPIO_WritePin(GPIOE, GPIO_PIN_8, GPIO_PIN_SET);
-			HAL_GPIO_WritePin(GPIOE, GPIO_PIN_7, GPIO_PIN_RESET);
-		}else if (ut4 < 0){
-			HAL_GPIO_WritePin(GPIOE, GPIO_PIN_8, GPIO_PIN_RESET);
-			HAL_GPIO_WritePin(GPIOE, GPIO_PIN_7, GPIO_PIN_SET);
-		}else if (ut4 == 0){
-			HAL_GPIO_WritePin(GPIOE, GPIO_PIN_8, GPIO_PIN_RESET);
-			HAL_GPIO_WritePin(GPIOE, GPIO_PIN_7, GPIO_PIN_RESET);
-		}
+		rVy = 0.25 * ( Kpid[0].insVel + Kpid[1].insVel
+				+ Kpid[2].insVel + Kpid[3].insVel );
+		rVx = 0.25 * ( Kpid[0].insVel - Kpid[1].insVel
+				+ Kpid[2].insVel - Kpid[3].insVel );
+		rW = 0.25 * ( Kpid[0].insVel - Kpid[1].insVel
+				- Kpid[2].insVel + Kpid[3].insVel );
 	}
 }
-
-
 /* USER CODE END 4 */
 
 /**
