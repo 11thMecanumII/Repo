@@ -18,12 +18,12 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
-#include "PID.h"
 //#include "parameter.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "mainpp.h"
+#include "PID.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -91,16 +91,6 @@ static void MX_TIM2_Init(void);
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
 
-
-#define PI 3.1415926
-
-int inttt;
-int bbb;
-double ut[4], up[4], ui[4], ud[4], SV[4], PV[4], Kp[4], Ki[4], Kd[4], et[4], pulse[4], it[4];
-int16_t enc[4];
-double imax, max_rps;
-int map, run, run2, cont;
-double resolution = 512, reduction_ratio = 20.8, frequency = 1000;
 /* USER CODE END 0 */
 
 /**
@@ -156,42 +146,11 @@ int main(void)
     HAL_TIM_Encoder_Start(&htim4, TIM_CHANNEL_2);
     HAL_TIM_Encoder_Start(&htim23, TIM_CHANNEL_1);
     HAL_TIM_Encoder_Start(&htim23, TIM_CHANNEL_2);
-    run2 = 0;
-    run = 0;
-    Kp[0] = 0.380348545974888	;
-    Ki[0] = 8.64014455617426;
-    Kd[0] = 0.00158359752468666;
-    Kp[1] = 0.398598965511759	;
-    Ki[1] = 8.83255513394513;
-    Kd[1] = 0.00182236328290195;
-    Kp[2] = 0.383938106220696;
-    Ki[2] = 8.67125871485857;
-    Kd[2] = 0.00163533883823194;
-    Kp[3] = 0.395936692858645;
-    Ki[3] = 8.79655800062044;
-    Kd[3] = 0.00179332179214608;
-    for (int i = 0; i < 4; i++) {
-    	ut[i] = 0;
-    	up[i] = 0;
-    	ui[i] = 0;
-    	ud[i] = 0;
-    	SV[i] = 0;
-    	PV[i] = 0;
-    	et[i] = 0;
-    	pulse[i] = 0;
-    	it[i] = 0;
-    	enc[i] = 0;
-    }
-    imax = 1;
-    Vx = 0;
-    Vy = 0;
-    W = 0;
-    cont = 0;
-    max_rps = 2;
-    map = 0;
-    rVy = 0;
-    rVx = 0;
-    rW = 0;
+
+//    for( int j = 0; j < 4; j ++){
+//    	K_init(j);
+//    }
+
     setup();
   /* USER CODE END 2 */
 
@@ -819,52 +778,31 @@ static void MX_GPIO_Init(void)
 /* USER CODE BEGIN 4 */
 
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
-//	run++;
 //	if (htim->Instance == TIM2) {
-//		inttt ++;
 //		inter();
 //	}
 	if (htim->Instance == TIM5) {
-
-		run2++;
-		SV[0] = Vy + Vx + (W * 0.152767);
-		SV[1] = Vy - Vx - (W * 0.152844);
-		SV[2] = Vy + Vx - (W * 0.152998);
-		SV[3] = Vy - Vx + (W * 0.154852);
-
-		SV_Limit(SV, max_rps);
-
-		enc[0] = __HAL_TIM_GetCounter(&htim23);
-		enc[1] = __HAL_TIM_GetCounter(&htim4) * -1;
-		enc[2] = __HAL_TIM_GetCounter(&htim24);
-		enc[3] = __HAL_TIM_GetCounter(&htim3);
+		Kpid[0].goalVel = Vy + Vx + (W * 0.152767);
+		Kpid[1].goalVel = Vy - Vx - (W * 0.152844);
+		Kpid[2].goalVel = Vy + Vx - (W * 0.152998);
+		Kpid[3].goalVel = Vy - Vx + (W * 0.154852);
+		Kpid[0].enc = __HAL_TIM_GetCounter(&htim23);
+		Kpid[1].enc = __HAL_TIM_GetCounter(&htim4) * -1;
+		Kpid[2].enc = __HAL_TIM_GetCounter(&htim24);
+		Kpid[3].enc = __HAL_TIM_GetCounter(&htim3);
 		__HAL_TIM_SetCounter(&htim24, 0);
 		__HAL_TIM_SetCounter(&htim23, 0);
 		__HAL_TIM_SetCounter(&htim3, 0);
 		__HAL_TIM_SetCounter(&htim4, 0);
 
-		for (int i = 0; i < 4; i++) {
-			it[i] = et[i];
-			PV[i] = (double) enc[i] * PI * 0.0996 / (4 * resolution * reduction_ratio) * frequency;
-//			et[i] = SV[i] - PV[i];
-			pidCtrl(i, SV[i], PV[i]);
-			et[i] = Kpid[i].error;
-
-			up[i] = Kp[i] * et[i];
-			ui[i] += Ki[i] * it[i] * 0.001;
-			ud[i] = Kd[i] * (et[i] - it[i]) / 0.001;
-			if (ui[i] > imax)	ui[i] = imax;
-			else if (ui[i] < imax * -1)ui[i] = imax * -1;
-			ut[i] = up[i] + ui[i] + ud[i];
-			ut[i] > 0 ? (pulse[i] = ut[i] * 3200) : (pulse[i] = ut[i] * -3200);
-			if(pulse[i] > 3200) pulse[i] = 3200;
+		for( int i = 0; i < 4; i ++){
+			pidCtrl(i);
 		}
 
-		__HAL_TIM_SET_COMPARE(&htim8, TIM_CHANNEL_3, pulse[0]);
-		__HAL_TIM_SET_COMPARE(&htim8, TIM_CHANNEL_4, pulse[1]);
-		__HAL_TIM_SET_COMPARE(&htim15, TIM_CHANNEL_2, pulse[2]);
-		__HAL_TIM_SET_COMPARE(&htim15, TIM_CHANNEL_1, pulse[3]);
-
+		__HAL_TIM_SET_COMPARE(&htim8, TIM_CHANNEL_3, Kpid[0].pulse);
+		__HAL_TIM_SET_COMPARE(&htim8, TIM_CHANNEL_4, Kpid[1].pulse);
+		__HAL_TIM_SET_COMPARE(&htim15, TIM_CHANNEL_2, Kpid[2].pulse);
+		__HAL_TIM_SET_COMPARE(&htim15, TIM_CHANNEL_1, Kpid[3].pulse);
 		HAL_GPIO_WritePin(GPIOB, GPIO_PIN_10, GPIO_PIN_RESET);
 		HAL_GPIO_WritePin(GPIOB, GPIO_PIN_11, GPIO_PIN_RESET);
 		HAL_GPIO_WritePin(GPIOE, GPIO_PIN_15, GPIO_PIN_RESET);
@@ -873,23 +811,23 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
 		HAL_GPIO_WritePin(GPIOE, GPIO_PIN_12, GPIO_PIN_RESET);
 		HAL_GPIO_WritePin(GPIOE, GPIO_PIN_8, GPIO_PIN_RESET);
 		HAL_GPIO_WritePin(GPIOE, GPIO_PIN_7, GPIO_PIN_RESET);
+		if (Kpid[0].u > 0)HAL_GPIO_WritePin(GPIOB, GPIO_PIN_10, GPIO_PIN_SET);
+		else if (Kpid[0].u < 0)HAL_GPIO_WritePin(GPIOB, GPIO_PIN_11, GPIO_PIN_SET);
+		if (Kpid[1].u > 0)HAL_GPIO_WritePin(GPIOE, GPIO_PIN_15, GPIO_PIN_SET);
+		else if (Kpid[1].u < 0)HAL_GPIO_WritePin(GPIOE, GPIO_PIN_6, GPIO_PIN_SET);
+		if (Kpid[2].u > 0)HAL_GPIO_WritePin(GPIOE, GPIO_PIN_10, GPIO_PIN_SET);
+		else if (Kpid[2].u < 0)HAL_GPIO_WritePin(GPIOE, GPIO_PIN_12, GPIO_PIN_SET);
+		if (Kpid[3].u > 0)HAL_GPIO_WritePin(GPIOE, GPIO_PIN_8, GPIO_PIN_SET);
+		else if (Kpid[3].u < 0)HAL_GPIO_WritePin(GPIOE, GPIO_PIN_7, GPIO_PIN_SET);
 
-		if (ut[0] > 0)HAL_GPIO_WritePin(GPIOB, GPIO_PIN_10, GPIO_PIN_SET);
-		else if (ut[0] < 0)HAL_GPIO_WritePin(GPIOB, GPIO_PIN_11, GPIO_PIN_SET);
-		if (ut[1] > 0)HAL_GPIO_WritePin(GPIOE, GPIO_PIN_15, GPIO_PIN_SET);
-		else if (ut[1] < 0)HAL_GPIO_WritePin(GPIOE, GPIO_PIN_6, GPIO_PIN_SET);
-		if (ut[2] > 0)HAL_GPIO_WritePin(GPIOE, GPIO_PIN_10, GPIO_PIN_SET);
-		else if (ut[2] < 0)HAL_GPIO_WritePin(GPIOE, GPIO_PIN_12, GPIO_PIN_SET);
-		if (ut[3] > 0)HAL_GPIO_WritePin(GPIOE, GPIO_PIN_8, GPIO_PIN_SET);
-		else if (ut[3] < 0)HAL_GPIO_WritePin(GPIOE, GPIO_PIN_7, GPIO_PIN_SET);
-
-		rVy = 0.25 * ( PV[0] + PV[1] + PV[2] + PV[3] );
-		rVx = 0.25 * ( PV[0] - PV[1] + PV[2] - PV[3] );
-		rW = 0.25 * ( PV[0] - PV[1] - PV[2] + PV[3] );
+		rVy = 0.25 * ( Kpid[0].insVel + Kpid[1].insVel
+				+ Kpid[2].insVel + Kpid[3].insVel );
+		rVx = 0.25 * ( Kpid[0].insVel - Kpid[1].insVel
+				+ Kpid[2].insVel - Kpid[3].insVel );
+		rW = 0.25 * ( Kpid[0].insVel - Kpid[1].insVel
+				- Kpid[2].insVel + Kpid[3].insVel );
 	}
 }
-
-
 /* USER CODE END 4 */
 
 /**
