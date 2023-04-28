@@ -28,6 +28,26 @@ void interPub(void){
 
 ros::Subscriber<geometry_msgs::Twist> sub("cmd_vel", callback);
 
+
+void HAL_UART_TxCpltCallback(UART_HandleTypeDef *huart)
+{
+    nh.getHardware()->flush();
+}
+void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
+{
+    nh.getHardware()->reset_rbuf();
+}
+void setup(void)
+{
+    nh.initNode();
+    nh.subscribe(sub);
+    nh.advertise(pub);
+}
+void loop(void)
+{
+    nh.spinOnce();
+}
+
 /* UART Communication */
 void Error_Handler(void)
 {
@@ -92,25 +112,5 @@ void HAL_UART_ErrorCallback(UART_HandleTypeDef *huart){
 	MX_USART10_UART_Init();
 	nh.getHardware()->init();
     }
-}
-
-
-void HAL_UART_TxCpltCallback(UART_HandleTypeDef *huart)
-{
-    nh.getHardware()->flush();
-}
-void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
-{
-    nh.getHardware()->reset_rbuf();
-}
-void setup(void)
-{
-    nh.initNode();
-    nh.subscribe(sub);
-    nh.advertise(pub);
-}
-void loop(void)
-{
-    nh.spinOnce();
 }
 

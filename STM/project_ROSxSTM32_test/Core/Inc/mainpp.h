@@ -9,9 +9,9 @@ extern "C"
 extern int run_inter0, run_inter1;
 extern double Vx, Vy, W ,rVx, rVy, rW;
 
-void interPub(void);
 void setup(void);
 void loop(void);
+void interPub(void);
 
 #ifdef __cplusplus
 }
