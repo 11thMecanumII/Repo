@@ -5,7 +5,7 @@
 extern "C"
 {
 #endif
-void speedsss(double* speed, double enc);
+
 void setup(void);
 void loop(void);
 void interPub(void);

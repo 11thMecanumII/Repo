@@ -9,16 +9,10 @@
 #define frequency 1000
 //
 
-int	count;
 int run_inter0 = 0, run_inter1 = 0;
 double Vx, Vy, W, rVx, rVy, rW;
 geometry_msgs::Twist insVel;
 
-
-void speedsss(double* speed, double enc){
-		*speed = (double) enc
-				/ (4 * resolution * reduction_ratio) * frequency;
-}
 
 void callback(const geometry_msgs::Twist &msg)
 {
@@ -119,7 +113,7 @@ void loop(void)
     nh.spinOnce();
 }
 
-void interPub(){
+void interPub(void){
 	insVel.linear.x = rVx;
 	insVel.linear.y = rVy;
 	insVel.angular.z = rW;
