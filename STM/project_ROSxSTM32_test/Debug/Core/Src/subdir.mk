@@ -15,7 +15,8 @@ C_SRCS += \
 
 CPP_SRCS += \
 ../Core/Src/mainpp.cpp \
-../Core/Src/parameter.cpp 
+../Core/Src/parameter.cpp \
+../Core/Src/timing.cpp 
 
 C_DEPS += \
 ./Core/Src/PID.d \
@@ -35,11 +36,13 @@ OBJS += \
 ./Core/Src/stm32h7xx_it.o \
 ./Core/Src/syscalls.o \
 ./Core/Src/sysmem.o \
-./Core/Src/system_stm32h7xx.o 
+./Core/Src/system_stm32h7xx.o \
+./Core/Src/timing.o 
 
 CPP_DEPS += \
 ./Core/Src/mainpp.d \
-./Core/Src/parameter.d 
+./Core/Src/parameter.d \
+./Core/Src/timing.d 
 
 
 # Each subdirectory must supply rules for building sources it contributes
@@ -51,7 +54,7 @@ Core/Src/%.o Core/Src/%.su: ../Core/Src/%.cpp Core/Src/subdir.mk
 clean: clean-Core-2f-Src
 
 clean-Core-2f-Src:
-	-$(RM) ./Core/Src/PID.d ./Core/Src/PID.o ./Core/Src/PID.su ./Core/Src/main.d ./Core/Src/main.o ./Core/Src/main.su ./Core/Src/mainpp.d ./Core/Src/mainpp.o ./Core/Src/mainpp.su ./Core/Src/parameter.d ./Core/Src/parameter.o ./Core/Src/parameter.su ./Core/Src/stm32h7xx_hal_msp.d ./Core/Src/stm32h7xx_hal_msp.o ./Core/Src/stm32h7xx_hal_msp.su ./Core/Src/stm32h7xx_it.d ./Core/Src/stm32h7xx_it.o ./Core/Src/stm32h7xx_it.su ./Core/Src/syscalls.d ./Core/Src/syscalls.o ./Core/Src/syscalls.su ./Core/Src/sysmem.d ./Core/Src/sysmem.o ./Core/Src/sysmem.su ./Core/Src/system_stm32h7xx.d ./Core/Src/system_stm32h7xx.o ./Core/Src/system_stm32h7xx.su
+	-$(RM) ./Core/Src/PID.d ./Core/Src/PID.o ./Core/Src/PID.su ./Core/Src/main.d ./Core/Src/main.o ./Core/Src/main.su ./Core/Src/mainpp.d ./Core/Src/mainpp.o ./Core/Src/mainpp.su ./Core/Src/parameter.d ./Core/Src/parameter.o ./Core/Src/parameter.su ./Core/Src/stm32h7xx_hal_msp.d ./Core/Src/stm32h7xx_hal_msp.o ./Core/Src/stm32h7xx_hal_msp.su ./Core/Src/stm32h7xx_it.d ./Core/Src/stm32h7xx_it.o ./Core/Src/stm32h7xx_it.su ./Core/Src/syscalls.d ./Core/Src/syscalls.o ./Core/Src/syscalls.su ./Core/Src/sysmem.d ./Core/Src/sysmem.o ./Core/Src/sysmem.su ./Core/Src/system_stm32h7xx.d ./Core/Src/system_stm32h7xx.o ./Core/Src/system_stm32h7xx.su ./Core/Src/timing.d ./Core/Src/timing.o ./Core/Src/timing.su
 
 .PHONY: clean-Core-2f-Src
 

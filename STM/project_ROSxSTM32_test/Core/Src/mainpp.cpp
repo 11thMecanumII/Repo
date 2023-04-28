@@ -1,18 +1,13 @@
 #include "mainpp.h"
 #include "ros.h"
-#include "std_msgs/Int64.h"
-#include "geometry_msgs/Twist.h"
+#include <geometry_msgs/Twist.h>
 #include "STM32Hardware.h"
-#define max_rps 5
-#define resolution 512
-#define reduction_ratio 20.8
-#define frequency 1000
-//
 
+ros::NodeHandle nh;
 int run_inter0 = 0, run_inter1 = 0;
 double Vx, Vy, W, rVx, rVy, rW;
 geometry_msgs::Twist insVel;
-
+ros::Publisher pub("ins_vel", &insVel, 1);
 
 void callback(const geometry_msgs::Twist &msg)
 {
@@ -20,12 +15,18 @@ void callback(const geometry_msgs::Twist &msg)
 	Vy = msg.linear.y;
 	W = msg.angular.z;
 }
+void interPub(void){
+	insVel.linear.x = rVx;
+	insVel.linear.y = rVy;
+	insVel.angular.z = rW;
+	run_inter0 ++;
 
+	pub.publish(&insVel);
 
-ros::NodeHandle nh;
+	run_inter1 ++;
+}
+
 ros::Subscriber<geometry_msgs::Twist> sub("cmd_vel", callback);
-ros::Publisher pub("/ins_vel", &insVel);
-//	std_msgs
 
 /* UART Communication */
 void Error_Handler(void)
@@ -94,10 +95,10 @@ void HAL_UART_ErrorCallback(UART_HandleTypeDef *huart){
 }
 
 
-//void HAL_UART_TxCpltCallback(UART_HandleTypeDef *huart)
-//{
-//    nh.getHardware()->flush();
-//}
+void HAL_UART_TxCpltCallback(UART_HandleTypeDef *huart)
+{
+    nh.getHardware()->flush();
+}
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 {
     nh.getHardware()->reset_rbuf();
@@ -113,12 +114,3 @@ void loop(void)
     nh.spinOnce();
 }
 
-void interPub(void){
-	insVel.linear.x = rVx;
-	insVel.linear.y = rVy;
-	insVel.angular.z = rW;
-	run_inter0 ++;
-	pub.publish(&insVel);
-
-	run_inter1 ++;
-}

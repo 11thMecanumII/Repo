@@ -1,10 +1,3 @@
-/*
- * PID.h
- *
- *  Created on: 2023年4月27日
- *      Author: chenw
- */
-
 #ifndef INC_PID_H_
 #define INC_PID_H_
 
@@ -17,6 +10,11 @@
 #define reduction_ratio 20.8
 #define max_ui 1
 #define Dwheel 0.0996		//wheelDiameter
+
+#ifdef __cplusplus
+extern "C"
+{
+#endif
 
 typedef struct{
 	const double Kp;
@@ -37,5 +35,9 @@ typedef struct{
 extern KPID Kpid[4];
 
 void pidCtrl(int i);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* INC_PID_H_ */
