@@ -21,7 +21,8 @@ void interPub(void){
 	insVel.angular.z = rW;
 	run_inter0 ++;
 
-	pub.publish(&insVel);
+	if(run_inter0 > 1)
+		pub.publish(&insVel);
 
 	run_inter1 ++;
 }
