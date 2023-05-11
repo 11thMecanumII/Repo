@@ -9,6 +9,7 @@
 #define resolution 512
 #define reduction_ratio 20.8
 #define max_ui 1
+#define PWM_ARR 3200
 #define Dwheel 0.0996		//wheelDiameter
 
 #ifdef __cplusplus
@@ -21,8 +22,8 @@ typedef struct{
 	const double Ki;
 	const double Kd;
 	int16_t enc;
-	double goalVel;
-	double insVel;
+	double goalVel;		//m/s
+	double insVel;		//m/s
 	double error;
 	double last_error;
 	double u;
@@ -30,6 +31,7 @@ typedef struct{
 	double ui;
 	double ud;
 	double pulse;
+	double cD;
 }KPID;
 
 extern KPID Kpid[4];

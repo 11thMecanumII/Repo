@@ -5,10 +5,10 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
 		interPub();
 	}
 	if (htim->Instance == TIM5) {
-		Kpid[0].goalVel = Vy + Vx + (W * 0.152767);
-		Kpid[1].goalVel = Vy - Vx - (W * 0.152844);
-		Kpid[2].goalVel = Vy + Vx - (W * 0.152998);
-		Kpid[3].goalVel = Vy - Vx + (W * 0.154852);
+		Kpid[0].goalVel = Vy + Vx + (W * Kpid[0].cD);
+		Kpid[1].goalVel = Vy - Vx - (W * Kpid[1].cD);
+		Kpid[2].goalVel = Vy + Vx - (W * Kpid[2].cD);
+		Kpid[3].goalVel = Vy - Vx + (W * Kpid[3].cD);
 		Kpid[0].enc = __HAL_TIM_GetCounter(&htim23);
 		Kpid[1].enc = __HAL_TIM_GetCounter(&htim4) * -1;
 		Kpid[2].enc = __HAL_TIM_GetCounter(&htim24);
