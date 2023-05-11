@@ -3,14 +3,16 @@
 
 #include <math.h>
 #include <stdint.h>
+#include "mainpp.h"
 
-#define PI 3.14159265751
 #define frequency 1000
 #define resolution 512
 #define reduction_ratio 20.8
 #define max_ui 1
-#define PWM_ARR 3200
+#define PWM_ARR 4200
 #define Dwheel 0.0996		//wheelDiameter
+#define width 0.234
+#define length 0.196
 
 #ifdef __cplusplus
 extern "C"

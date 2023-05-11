@@ -109,6 +109,8 @@ void setup(void)
     nh.initNode();
     nh.subscribe(sub);
     nh.advertise(pub);
+
+    W = PI;
 }
 void loop(void)
 {
