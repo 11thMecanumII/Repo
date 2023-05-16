@@ -1,6 +1,7 @@
 #include "timing.h"
 
 int ccc = 0;
+double coeffab = 0.5 * (width + length);
 
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
 	if (htim->Instance == TIM2) {
@@ -8,9 +9,9 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
 	}
 	if (htim->Instance == TIM5) {
 
-		if (++ccc > 2000)     W = 0;
+		if (++ccc = 2000)     W = 0;
 
-		double coeffab = 0.5 * (width + length);
+
 		Kpid[0].goalVel = Vy + Vx + (W * coeffab);
 		Kpid[1].goalVel = Vy - Vx - (W * coeffab);
 		Kpid[2].goalVel = Vy + Vx - (W * coeffab);
