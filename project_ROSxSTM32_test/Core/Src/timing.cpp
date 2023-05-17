@@ -9,7 +9,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
 	}
 	if (htim->Instance == TIM5) {
 
-		if (++ccc == 2000)     W = 0;
+		if (++ccc == 10000)     W = 0;
 
 		Kpid[0].goalVel = Vy + Vx + (W * coeffab);
 		Kpid[1].goalVel = Vy - Vx - (W * coeffab);
@@ -56,8 +56,8 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
 				+ Kpid[2].insVel + Kpid[3].insVel );
 		rVx = 0.25 * ( Kpid[0].insVel - Kpid[1].insVel
 				+ Kpid[2].insVel - Kpid[3].insVel );
-		rW = 0.25 * ( Kpid[0].insVel - Kpid[1].insVel
-				- Kpid[2].insVel + Kpid[3].insVel );
+		rW = (double)0.25 * ( Kpid[0].insVel - Kpid[1].insVel
+				- Kpid[2].insVel + Kpid[3].insVel ) / coeffab;
 
 		odom_update(vel_Car2World('x',rVx,rVy), vel_Car2World('y',rVx,rVy), rW);
 	}

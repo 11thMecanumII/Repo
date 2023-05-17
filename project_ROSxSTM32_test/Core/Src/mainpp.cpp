@@ -19,6 +19,9 @@ void interPub(void){
 	insVel.linear.x = rVx;
 	insVel.linear.y = rVy;
 	insVel.angular.z = rW;
+	insVel.angular.x = odom.x;
+	insVel.angular.y = odom.y;
+	insVel.linear.z = odom.theta;
 	run_inter0 ++;
 
 	if(run_inter0 > 1)

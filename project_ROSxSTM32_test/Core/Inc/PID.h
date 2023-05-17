@@ -5,6 +5,11 @@
 #include <stdint.h>
 #include "mainpp.h"
 
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+
 #define frequency 1000
 #define resolution 512
 #define reduction_ratio 20.8
@@ -13,11 +18,6 @@
 #define Dwheel 0.0996		//wheelDiameter
 #define width 0.234
 #define length 0.196
-
-#ifdef __cplusplus
-extern "C"
-{
-#endif
 
 typedef struct{
 	const double Kp;

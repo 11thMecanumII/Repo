@@ -1,16 +1,15 @@
 #ifndef _ODOMETRY_H_
 #define _ODOMETRY_H_
 
+#include "mainpp.h"
+
 #ifdef __cplusplus
 extern "C"
 {
 #endif
 
-#include "mainpp.h"
-#include "PID.h"
-
 #define PI 3.14159265751
-#define dt 0.02
+#define dt 0.001
 
 typedef struct{
     double x;
