@@ -1,14 +1,31 @@
 #ifndef _ODOMETRY_H_
 #define _ODOMETRY_H_
 
-class ODOM{
-private:
-    double current_time, last_time;
-    double dt;
-    double x, y, theta;
-public:
-    ODOM(double _x, double _y, double _theta);
-    void update(const geometry_msgs::Twist::ConstPtr& ins_vel);
-};
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+
+#include "mainpp.h"
+#include "PID.h"
+
+#define PI 3.14159265751
+#define dt 0.02
+
+typedef struct{
+    double x;
+    double y;
+    double theta;
+}ODOM;
+
+extern ODOM odom;
+
+void odom_update(double Vx_world, double Vy_world, double W);
+double vel_Car2World(char coor, double Vx, double Vy);
+double vel_World2Car(char coor, double Vx_world, double Vy_world);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif

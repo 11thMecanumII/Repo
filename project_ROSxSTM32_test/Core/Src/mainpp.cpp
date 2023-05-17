@@ -11,8 +11,8 @@ ros::Publisher pub("/ins_vel", &insVel);
 
 void callback(const geometry_msgs::Twist &msg)
 {
-	Vx = msg.linear.x;
-	Vy = msg.linear.y;
+	Vx = vel_World2Car('x', msg.linear.x, msg.linear.y);
+	Vy = vel_World2Car('y', msg.linear.x, msg.linear.y);
 	W = msg.angular.z;
 }
 void interPub(void){
@@ -109,6 +109,8 @@ void setup(void)
     nh.initNode();
     nh.subscribe(sub);
     nh.advertise(pub);
+
+    odom.x = 0;		odom.y = 0;		odom.theta = (double)PI/2;
 
     W = PI;
 }

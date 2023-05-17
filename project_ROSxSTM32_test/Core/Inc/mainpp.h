@@ -6,7 +6,8 @@ extern "C"
 {
 #endif
 
-#define PI 3.14159265751
+#include "odometry.h"
+#include <math.h>
 
 extern int run_inter0, run_inter1;
 extern double Vx, Vy, W ,rVx, rVy, rW;

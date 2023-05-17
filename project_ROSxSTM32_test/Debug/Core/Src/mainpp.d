@@ -1,4 +1,5 @@
 Core/Src/mainpp.o: ../Core/Src/mainpp.cpp ../Core/Inc/mainpp.h \
+ ../Core/Inc/odometry.h ../Core/Inc/mainpp.h ../Core/Inc/PID.h \
  ../Core/Inc/ros.h ../Core/Inc/ros/node_handle.h \
  ../Core/Inc/std_msgs/Time.h ../Core/Inc/ros/msg.h ../Core/Inc/ros/time.h \
  ../Core/Inc/ros/duration.h ../Core/Inc/rosserial_msgs/TopicInfo.h \
@@ -42,6 +43,9 @@ Core/Src/mainpp.o: ../Core/Src/mainpp.cpp ../Core/Inc/mainpp.h \
  ../Core/Inc/geometry_msgs/Twist.h ../Core/Inc/geometry_msgs/Vector3.h \
  ../Core/Inc/STM32Hardware.h
 ../Core/Inc/mainpp.h:
+../Core/Inc/odometry.h:
+../Core/Inc/mainpp.h:
+../Core/Inc/PID.h:
 ../Core/Inc/ros.h:
 ../Core/Inc/ros/node_handle.h:
 ../Core/Inc/std_msgs/Time.h:
