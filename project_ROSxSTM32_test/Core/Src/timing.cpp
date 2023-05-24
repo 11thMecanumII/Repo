@@ -9,7 +9,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
 	}
 	if (htim->Instance == TIM5) {
 
-		if (++ccc == 10000)     W = 0;
+//		if (++ccc == 2000)     Vy = 0;
 
 		Kpid[0].goalVel = Vy + Vx + (W * coeffab);
 		Kpid[1].goalVel = Vy - Vx - (W * coeffab);

@@ -115,7 +115,7 @@ void setup(void)
 
     odom.x = 0;		odom.y = 0;		odom.theta = (double)PI/2;
 
-    W = PI;
+//    Vy = 0.2;
 }
 void loop(void)
 {

@@ -16,7 +16,7 @@ extern "C"
 #define max_ui 1
 #define PWM_ARR 4200
 #define Dwheel 0.0996		//wheelDiameter
-#define width 0.234
+#define width 0.23704
 #define length 0.196
 
 typedef struct{
