@@ -8,6 +8,7 @@ int run_inter0 = 0, run_inter1 = 0;
 double Vx, Vy, W, rVx, rVy, rW;
 geometry_msgs::Twist insVel;
 ros::Publisher pub("/ins_vel", &insVel);
+int timeout = 0;
 
 void callback(const geometry_msgs::Twist &msg)
 {
@@ -28,6 +29,11 @@ void interPub(void){
 		pub.publish(&insVel);
 
 	run_inter1 ++;
+}
+void stop(void){
+	Vx = 0;
+	Vy = 0;
+	W = 0;
 }
 
 ros::Subscriber<geometry_msgs::Twist> sub("cmd_vel", callback);
@@ -119,6 +125,13 @@ void setup(void)
 }
 void loop(void)
 {
-    nh.spinOnce();
+    if(!nh.spinOnce()){
+    	timeout ++;
+    }
+    else timeout = 0;
+    if(timeout > 100000){
+    	stop();
+    	timeout = 0;
+    }
 }
 
