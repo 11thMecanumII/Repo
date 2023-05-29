@@ -6,15 +6,23 @@
 ros::NodeHandle nh;
 int run_inter0 = 0, run_inter1 = 0;
 double Vx, Vy, W, rVx, rVy, rW;
+double WX, WY, WW;
 geometry_msgs::Twist insVel;
 ros::Publisher pub("/ins_vel", &insVel);
 int timeout = 0;
 
 void callback(const geometry_msgs::Twist &msg)
 {
-	Vx = vel_World2Car('x', msg.linear.x, msg.linear.y);
-	Vy = vel_World2Car('y', msg.linear.x, msg.linear.y);
-	W = msg.angular.z;
+//	Vx = vel_World2Car('x', msg.linear.x, msg.linear.y);
+//	Vy = vel_World2Car('y', msg.linear.x, msg.linear.y);
+//	W = msg.angular.z;
+	WX = msg.linear.x;
+	WY = msg.linear.y;
+	WW = msg.angular.z;
+	Vx = vel_World2Car('x', WX, WY);
+	Vy = vel_World2Car('y', WX, WY);
+	W = WW;
+
 }
 void interPub(void){
 	insVel.linear.x = rVx;
@@ -121,17 +129,19 @@ void setup(void)
 
     odom.x = 0;		odom.y = 0;		odom.theta = (double)PI/2;
 
-//    Vy = 0.2;
+//    W = 10 * 2 * PI / 180;
 }
 void loop(void)
 {
     if(!nh.spinOnce()){
-    	timeout ++;
+//    	timeout ++;
     }
-    else timeout = 0;
-    if(timeout > 100000){
-    	stop();
-    	timeout = 0;
-    }
+//    else timeout = 0;
+//    if(timeout > 100000){
+//    	stop();
+//    	timeout = 0;
+//    }
+//    Vx = vel_World2Car('x', WX, WY);
+//	Vy = vel_World2Car('y', WX, WY);
 }
 

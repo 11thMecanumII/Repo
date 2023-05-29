@@ -2,6 +2,7 @@
 
 int ccc = 0;
 double coeffab = 0.5 * (width + length);
+double angle = 0;
 
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
 	if (htim->Instance == TIM2) {
@@ -10,6 +11,10 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
 	if (htim->Instance == TIM5) {
 
 //		if (++ccc == 2000)     Vy = 0;
+
+//		if(odom.theta >= (double)angle * 2 * PI / 180){
+//			W = 0;
+//		}
 
 		Kpid[0].goalVel = Vy + Vx + (W * coeffab);
 		Kpid[1].goalVel = Vy - Vx - (W * coeffab);
