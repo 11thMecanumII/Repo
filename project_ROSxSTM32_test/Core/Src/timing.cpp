@@ -9,13 +9,6 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
 		interPub();
 	}
 	if (htim->Instance == TIM5) {
-
-//		if (++ccc == 2000)     Vy = 0;
-
-//		if(odom.theta >= (double)angle * 2 * PI / 180){
-//			W = 0;
-//		}
-
 		Kpid[0].goalVel = Vy + Vx + (W * coeffab);
 		Kpid[1].goalVel = Vy - Vx - (W * coeffab);
 		Kpid[2].goalVel = Vy + Vx - (W * coeffab);
@@ -29,8 +22,6 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
 		__HAL_TIM_SetCounter(&htim23, 0);
 		__HAL_TIM_SetCounter(&htim3, 0);
 		__HAL_TIM_SetCounter(&htim4, 0);
-
-
 
 		for( int i = 0; i < 4; i ++){
 			pidCtrl(i);

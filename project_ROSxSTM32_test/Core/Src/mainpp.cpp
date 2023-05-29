@@ -4,26 +4,25 @@
 #include "STM32Hardware.h"
 
 ros::NodeHandle nh;
-int run_inter0 = 0, run_inter1 = 0;
+bool ifFirstPush = false;
 double Vx, Vy, W, rVx, rVy, rW;
 double WX, WY, WW;
-geometry_msgs::Twist insVel;
-ros::Publisher pub("/ins_vel", &insVel);
-int timeout = 0;
 
-void callback(const geometry_msgs::Twist &msg)
-{
-//	Vx = vel_World2Car('x', msg.linear.x, msg.linear.y);
-//	Vy = vel_World2Car('y', msg.linear.x, msg.linear.y);
-//	W = msg.angular.z;
+void callback(const geometry_msgs::Twist &msg){
 	WX = msg.linear.x;
 	WY = msg.linear.y;
 	WW = msg.angular.z;
 	Vx = vel_World2Car('x', WX, WY);
 	Vy = vel_World2Car('y', WX, WY);
 	W = WW;
-
 }
+
+geometry_msgs::Twist insVel;
+ros::Publisher pub("/ins_vel", &insVel);
+ros::Subscriber<geometry_msgs::Twist> sub("cmd_vel", callback);
+
+int timeout = 0;
+
 void interPub(void){
 	insVel.linear.x = rVx;
 	insVel.linear.y = rVy;
@@ -31,20 +30,15 @@ void interPub(void){
 	insVel.angular.x = odom.x;
 	insVel.angular.y = odom.y;
 	insVel.linear.z = odom.theta;
-	run_inter0 ++;
 
-	if(run_inter0 > 1)
-		pub.publish(&insVel);
-
-	run_inter1 ++;
+	if(ifFirstPush)		pub.publish(&insVel);
+	ifFirstPush = true;
 }
 void stop(void){
 	Vx = 0;
 	Vy = 0;
 	W = 0;
 }
-
-ros::Subscriber<geometry_msgs::Twist> sub("cmd_vel", callback);
 
 /* UART Communication */
 void Error_Handler(void)
@@ -112,7 +106,6 @@ void HAL_UART_ErrorCallback(UART_HandleTypeDef *huart){
     }
 }
 
-
 void HAL_UART_TxCpltCallback(UART_HandleTypeDef *huart)
 {
     nh.getHardware()->flush();
@@ -121,18 +114,15 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 {
     nh.getHardware()->reset_rbuf();
 }
-void setup(void)
-{
+
+void setup(void){
     nh.initNode();
     nh.subscribe(sub);
     nh.advertise(pub);
 
     odom.x = 0;		odom.y = 0;		odom.theta = (double)PI/2;
-
-//    W = 10 * 2 * PI / 180;
 }
-void loop(void)
-{
+void loop(void){
     if(!nh.spinOnce()){
 //    	timeout ++;
     }
