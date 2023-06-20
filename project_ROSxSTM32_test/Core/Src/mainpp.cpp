@@ -9,12 +9,9 @@ double Vx, Vy, W, rVx, rVy, rW;
 double WX, WY, WW;
 
 void callback(const geometry_msgs::Twist &msg){
-	WX = msg.linear.x;
-	WY = msg.linear.y;
-	WW = msg.angular.z;
-	Vx = vel_World2Car('x', WX, WY);
-	Vy = vel_World2Car('y', WX, WY);
-	W = WW;
+	Vx = msg.linear.x;
+	Vy = msg.linear.y;
+	W = msg.angular.z;
 }
 
 geometry_msgs::Twist insVel;
