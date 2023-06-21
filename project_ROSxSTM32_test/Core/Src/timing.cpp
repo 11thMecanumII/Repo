@@ -55,6 +55,6 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
 		rW = (double)0.25 * ( Kpid[0].insVel - Kpid[1].insVel
 				- Kpid[2].insVel + Kpid[3].insVel ) / coeffab;
 
-		odom_update(vel_Car2World('x',rVx,rVy), vel_Car2World('y',rVx,rVy), rW);
+		odom_update(vel_Car2World('x',rVx,rVy),vel_Car2World('y',rVx,rVy), rW);
 	}
 }
