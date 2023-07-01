@@ -13,6 +13,7 @@ extern "C"
 #define frequency 1000
 #define resolution 512
 #define reduction_ratio 20.8
+#define reduction_ratio_4 16
 #define max_ui 1
 #define PWM_ARR 4200
 #define Dwheel 0.0996		//wheelDiameter

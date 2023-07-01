@@ -1,5 +1,8 @@
 #include "timing.h"
 
+#define cor_num_y 1.3
+#define cor_num_x 18
+
 int ccc = 0;
 double coeffab = 0.5 * (width + length);
 double angle = 0;
@@ -9,6 +12,12 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
 		interPub();
 	}
 	if (htim->Instance == TIM5) {
+
+		W += cor_num_y * Vy * 0.001;
+		if (Vx < 0){
+			W -= cor_num_x * Vx * 0.001;
+		}
+
 		Kpid[0].goalVel = Vy + Vx + (W * coeffab);
 		Kpid[1].goalVel = Vy - Vx - (W * coeffab);
 		Kpid[2].goalVel = Vy + Vx - (W * coeffab);
@@ -55,6 +64,12 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
 		rW = (double)0.25 * ( Kpid[0].insVel - Kpid[1].insVel
 				- Kpid[2].insVel + Kpid[3].insVel ) / coeffab;
 
-		odom_update(vel_Car2World('x',rVx,rVy),vel_Car2World('y',rVx,rVy), rW);
+
+		rW -= cor_num_y * Vy * 0.001;
+		if (Vx < 0){
+			rW += cor_num_x * Vx * 0.001;
+		}
+
+//		odom_update(vel_Car2World('x',rVx,rVy),vel_Car2World('y',rVx,rVy), rW);
 	}
 }

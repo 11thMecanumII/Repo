@@ -24,9 +24,9 @@ void interPub(void){
 	insVel.linear.x = rVx;
 	insVel.linear.y = rVy;
 	insVel.angular.z = rW;
-	insVel.angular.x = odom.x;
-	insVel.angular.y = odom.y;
-	insVel.linear.z = odom.theta;
+//	insVel.angular.x = odom.x;
+//	insVel.angular.y = odom.y;
+//	insVel.linear.z = odom.theta;
 
 	if(ifFirstPush)		pub.publish(&insVel);
 	ifFirstPush = true;
